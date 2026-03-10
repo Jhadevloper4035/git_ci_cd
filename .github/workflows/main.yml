@@ -14,15 +14,9 @@ jobs:
                 echo "My First CI/CD Pipline"
                 ls -ltra
                 cat README.md
-
-            - name: Genrate ASCII artwork
-              run: cowsay -f dragon "Run for cover, I am a DRAGON....RAWR" >> dragon.txt
-
-
-
-
-
-
+                
+            # - name: Genrate ASCII artwork
+            #   run: cowsay -f dragon "Run for cover, I am a DRAGON....RAWR" >> dragon.txt
 
             # - name: welcome Message
             #   run: echo "My First CI/CD Pipline"
