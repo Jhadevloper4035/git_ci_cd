@@ -9,17 +9,25 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v6.0.2
 
-            - name: Install Cowsay Program
-              run: sudo apt-get install cowsay -y
-
-            - name: Execute Cowsat Cmd
-              run: cowsay -f dragon "Run for cover, I am a DRAGON....RAWR" >> dragon.txt
-
-            - name: Test File Exist
-              run: grep -i "dragon" dragon.txt
-
-            - name: Read Dragon File
-              run: cat  dragon.txt
-
             - name: List Repo Files
               run: ls -ltra
+
+            - name: Executing Shell Script
+              run: ./genrate-ascii-cowsay-dragon-script.sh
+
+
+
+            # - name: Install Cowsay Program
+            #   run: sudo apt-get install cowsay -y
+
+            # - name: Execute Cowsat Cmd
+            #   run: cowsay -f dragon "Run for cover, I am a DRAGON....RAWR" >> dragon.txt
+
+            # - name: Test File Exist
+            #   run: grep -i "dragon" dragon.txt
+
+            # - name: Read Dragon File
+            #   run: cat  dragon.txt
+
+            # - name: List Repo Files
+            #   run: ls -ltra
