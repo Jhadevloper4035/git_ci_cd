@@ -6,6 +6,9 @@ jobs:
     first_job:
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout
+              uses: actions/checkout@v6.0.2
+              
             - name: welcome Message
               run: echo "My First CI/CD Pipline"
 
