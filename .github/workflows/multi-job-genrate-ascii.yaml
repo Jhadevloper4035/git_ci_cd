@@ -7,23 +7,31 @@ jobs:
     build_job_1:
         runs-on: ubuntu-latest
         steps:
-            - name: Install Cosway Program
+            - name: Install Cowsay Program
               run: sudo apt-get install cowsay -y 
 
             - name: Execute Cowsay CMD
               run: cowsay -f dragon "Run for cover, I am a DRAGON....RAWR" >> dragon.txt
-            
-            - name: Sleep For 30 Mins
-              run: sleep 30
+
+            - name: Upload The Dragon txt file
+              uses: actions/upload-artifact@v4
+              with:
+                name: dragon-text-file
+                path: dragon.txt
+             
+            # - name: Sleep For 30 Mins
+            #   run: sleep 30
 
 
     test_job_2:
         needs: build_job_1
         runs-on: ubuntu-latest
         steps:
-            - name: Sleep For 10 seconds
-              run: sleep 10
-
+            - name: Download Dragon file text 
+              uses: actions/download-artifact@v5
+              with:
+                name: dragon-text-file
+      
             - name: Test File Exists
               run: grep -i "dragon" dragon.txt
 
