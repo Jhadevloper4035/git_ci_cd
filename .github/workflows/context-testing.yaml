@@ -25,5 +25,3 @@ jobs:
       - name: Dump matrix context
         run: echo ${{ toJson(matrix) }}
 
-      - name: Dump Matrix Secrets
-        run: echo ${{ toJson(secrets) }}
