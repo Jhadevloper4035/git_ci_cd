@@ -1,0 +1,36 @@
+name: Timeout Job At Steps Level
+
+on: push
+
+
+env:
+    CONTAINER_REGISTER: ${{vars.CONTAINER_REGISTER }}
+    DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+    IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+
+
+jobs:
+    docker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Docker Build
+              run:  echo docker build -t ${{ env.CONTAINER_REGISTER}}/${{env.DOCKER_USERNAME}}/${{env.IMAGE_NAME}} 
+            
+            - name: Docker Login
+              run: echo docker login -u ${{env.DOCKER_USERNAME}} -p ${{ secrets.DOCKER_ACCESS_TOKEN   }}
+
+            - name: Docker Publish 
+              run:  echo docker push ${{env.CONTAINER_REGISTER}}/${{env.DOCKER_USERNAME}}/${{env.IMAGE_NAME}}
+
+
+    deploy:
+        runs-on: ubuntu-latest
+        concurrency:
+          group: production deployment 
+          cancel-in-progress: true # Cancel the currently running deployment & Start the latest deployment
+        steps:
+            - name: Docker Run
+              timeout-minutes: 1 # addee timeout 1 minute this steps cancel in one minute if not complete with in one minute to save resocurces 
+              run: |
+                echo docker run -d -p 8080:80 ${{env.CONTAINER_REGISTER}}/${{env.DOCKER_USERNAME}}/${{env.IMAGE_NAME}} 
+                sleep 600s
