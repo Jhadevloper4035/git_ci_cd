@@ -1,6 +1,6 @@
-name: Exploring Variable Secret
+name: Concurrency at Job Level
 
-on: push
+on: workflow_dispatch
 
 
 env:
@@ -25,6 +25,9 @@ jobs:
 
     deploy:
         runs-on: ubuntu-latest
+        concurrency:
+          group: production deployment 
+          cancel-in-progress: true
         steps:
             - name: Docker Run
               run: |
