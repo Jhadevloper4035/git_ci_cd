@@ -27,9 +27,49 @@ jobs:
         runs-on: ubuntu-latest
         concurrency:
           group: production deployment 
-          cancel-in-progress: true
+          cancel-in-progress: true # Cancel the currently running deployment & Start the latest deployment
         steps:
             - name: Docker Run
               run: |
                 echo docker run -d -p 8080:80 ${{env.CONTAINER_REGISTER}}/${{env.DOCKER_USERNAME}}/${{env.IMAGE_NAME}} 
                 sleep 600s
+
+     
+# What cancel-in-progress: false does
+
+# It means GitHub will NOT cancel the running job when a new workflow starts.
+
+# Instead, the new job will wait in a queue until the current job finishes.
+
+
+# | Commit   | What Happens        |
+# | Commit A | Deployment A starts |
+# | Commit B | Deployment B waits  |
+# | Commit C | Deployment C waits  |
+
+
+# Execution error
+# A runs → finishes
+# B runs → finishes
+# C runs → finishes
+
+
+
+
+
+# cancel-in-progress: true
+
+# Meaning: Cancel the currently running job if a new one starts in the same concurrency group.
+
+# Example timeline:
+
+# Commit	Result
+# Commit A	Job starts
+# Commit B	Cancels A
+# Commit C	Cancels B
+
+# Execution:
+
+# A ❌ cancelled
+# B ❌ cancelled
+# C ✅ runs
